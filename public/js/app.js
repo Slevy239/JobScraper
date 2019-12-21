@@ -1,3 +1,7 @@
+
+
+
+
 $("#delete").on("click", function() {
     console.log("click")
     $.ajax({
@@ -18,3 +22,14 @@ $("#scrape").on("click", function () {
         window.location = "/"
     })
 });
+
+$("#scrapeHouston").on("click", function () {
+    $.ajax({
+        method: "GET",
+        url: "/scrape/houston",
+    }).done(function (data) {
+        console.log(data)
+        window.location = "/"
+    })
+});
+

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-let AngelSchema = new Schema({
+let HoustonSchema = new Schema({
     // `title` is required and of type String
     title: {
       type: String,
@@ -31,8 +31,8 @@ let AngelSchema = new Schema({
   });
   
   // This creates our model from the above schema, using mongoose's model method
-  var AngelJobs = mongoose.model("AngelJobs", AngelSchema);
+  var Houston = mongoose.model("HoustonJobs", HoustonSchema);
   
   // Export the Article model
-  module.exports = AngelJobs;
+  module.exports = Houston;
   
