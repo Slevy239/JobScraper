@@ -37,7 +37,7 @@ app.engine(
 
 mongoose.connect("mongodb://localhost/JobsDb", { useNewUrlParser: true });
 
-let URLarray = ["https://www.indeed.com/jobs?q=junior+developer&l=Philadelphia%2C+PA", "https://www.indeed.com/q-junior-developer-l-Berwyn,-PA-jobs.html", "https://www.indeed.com/jobs?q=junior+developer&l=Houston%2C+TX"];
+let URLarray = ["https://www.indeed.com/jobs?q=junior+developer&l=Philadelphia%2C+PA", "https://www.indeed.com/jobs?q=junior+developer&l=Houston%2C+TX"];
 
 
 
@@ -70,7 +70,7 @@ app.get("/scrape", function (req, res) {
 });
 app.get("/scrape/houston", function (req, res) {
 
-  axios.get(URLarray[2]).then(function (respsonse) {
+  axios.get(URLarray[1]).then(function (respsonse) {
     let $ = cheerio.load(respsonse.data);
 
     $(".jobsearch-SerpJobCard").each(function (i, element) {
@@ -98,7 +98,15 @@ app.get("/scrape/houston", function (req, res) {
 
 
 
-
+app.get("/houston", function (rwq, res) {
+  db.Houston.find({}, function(err, data) {
+    let hbsObject = {
+      Houston: data
+    }
+    console.log(hbsObject);
+    res.render("houston", hbsObject);
+  })
+})
 
 
 
@@ -114,6 +122,12 @@ app.get("/", function (req, res) {
 
 app.post("/delete", function (req, res) {
   db.Jobs.remove({}).then(function (respsonse) {
+    console.log(sesponse)
+    res.json(respsonse)
+  })
+});
+app.post("/delete", function (req, res) {
+  db.Houston.remove({}).then(function (respsonse) {
     console.log(sesponse)
     res.json(respsonse)
   })
