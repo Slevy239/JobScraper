@@ -22,6 +22,10 @@ var JobSchema = new Schema({
   link: {
       type: String,
       required: true
+  },
+  summary: {
+      type: String,
+      required: true
   }
   
   });

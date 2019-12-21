@@ -1,0 +1,40 @@
+<div id="wrapper">
+    <div class="container text-center" id="header" style="border: solid 1px;">
+    </div>
+    <br>
+    <br>
+    <br>
+    <div class="container">
+
+        <div class="col-md-12">
+            {{#if article}}
+            {{#each article}}
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>{{this.title}}</h4>
+                </div>
+                <div class="panel-body">
+                    <p></p>
+
+                    <button>
+                        <a href={{this.link}} target="_blank">{{this.company}}</a>
+                    </button>
+
+                    <br><br>
+                    <p>{{this.location}}</p>
+                    <p>{{this.salary}}</p>
+                    <p>{{this.summary}}</p>
+                    {{!-- <p>{{this.link}}</p> --}}
+
+                </div>
+            </div>
+            {{/each}}
+            {{else}}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                </div>
+            </div>
+            {{/if}}
+        </div>
+    </div>
