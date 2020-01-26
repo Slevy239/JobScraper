@@ -35,58 +35,35 @@ app.engine(
 
 
 
-mongoose.connect("mongodb://localhost/JobsDb", { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost/Bets", { useNewUrlParser: true });
 
-let URLarray = ["https://www.indeed.com/jobs?q=junior+developer&l=Philadelphia%2C+PA", "https://www.indeed.com/jobs?q=junior+developer&l=Houston%2C+TX"];
 
 
 
 app.get("/scrape", function (req, res) {
 
-  axios.get(URLarray[0]).then(function (respsonse) {
+  axios.get('https://www.sportsbookreview.com/betting-odds/ncaa-basketball/matchups/').then(function (respsonse) {
     let $ = cheerio.load(respsonse.data);
 
-    $(".jobsearch-SerpJobCard").each(function (i, element) {
+    // console.log('results')
+    $('._248Zw').each(function (i, element) {
       let results = {};
+      
+      results.Teams = $(this).find('.FjbAa').text()
+      results.Spread = 'https://www.youtube.com/watch?v=oHg5SJYRHA0'
+      // results.Percent = $(this).find('.Flohv._34Pxi.P1N4B').text();
+      // results.Percent = $(this).find('Flohv').innerText();
+      // results.Percent = $(".Flohv._34Pxi.P1N4B").text().replace(/\.[^.]*?$/).trim();
+      results.HomeTeam =  55 + Math.floor(Math.random() * 45)
+      results.AwayTeam =  55 + Math.floor(Math.random() * 45)
+      results.Location = $(this).find('h4._3YOGL').text();
 
 
-      results.title = $(this).find("div.title").text().replace(/\n/g, '')
-      results.company = $(this).find(".company").text().replace(/\n/g, '')
-      results.location = $(this).find(".location").text().replace(/\n/g, '');
-      results.salary = $(this).find(".salaryText").text().replace(/\n/g, '');
-      results.link = "https://www.indeed.com" + $(this).find("a").attr("href");
-      results.summary = $(this).find("ul").text()
-
-      db.Jobs.create(results)
-        .then(function (dbJobs) {
-          console.log(dbJobs)
-        })
-        .catch(function (err) {
-          console.log(err);
-        })
-    });
-
-  });
-});
-app.get("/scrape/houston", function (req, res) {
-
-  axios.get(URLarray[1]).then(function (respsonse) {
-    let $ = cheerio.load(respsonse.data);
-
-    $(".jobsearch-SerpJobCard").each(function (i, element) {
-      let results = {};
 
 
-      results.title = $(this).find("div.title").text().replace(/\n/g, '')
-      results.company = $(this).find(".company").text().replace(/\n/g, '')
-      results.location = $(this).find(".location").text().replace(/\n/g, '');
-      results.salary = $(this).find(".salaryText").text().replace(/\n/g, '');
-      results.link = "https://www.indeed.com" + $(this).find("a").attr("href");
-      results.summary = $(this).find("ul").text();
-
-      db.Houston.create(results)
-        .then(function (dbJobs) {
-          console.log(dbJobs)
+      db.Odds.create(results)
+        .then(function (dbOdds) {
+          console.log(dbOdds)
         })
         .catch(function (err) {
           console.log(err);
@@ -98,20 +75,21 @@ app.get("/scrape/houston", function (req, res) {
 
 
 
-app.get("/houston", function (rwq, res) {
-  db.Houston.find({}, function(err, data) {
-    let hbsObject = {
-      Houston: data
-    }
-    console.log(hbsObject);
-    res.render("houston", hbsObject);
-  })
-})
+
+// app.get("/houston", function (rwq, res) {
+//   db.Houston.find({}, function(err, data) {
+//     let hbsObject = {
+//       Houston: data
+//     }
+//     console.log(hbsObject);
+//     res.render("houston", hbsObject);
+//   })
+// })
 
 
 
 app.get("/", function (req, res) {
-  db.Jobs.find({}, function (err, data) {
+  db.Odds.find({}, function (err, data) {
     var hbsObject = {
       article: data
     };
@@ -120,20 +98,15 @@ app.get("/", function (req, res) {
   })
 })
 
-app.post("/delete", function (req, res) {
-  db.Jobs.remove({}).then(function (respsonse) {
-    console.log(sesponse)
-    res.json(respsonse)
-  })
-});
-app.post("/delete", function (req, res) {
-  db.Houston.remove({}).then(function (respsonse) {
-    console.log(sesponse)
-    res.json(respsonse)
-  })
-})
+// app.post("/delete", function (req, res) {
+//   db.Odds.remove({}).then(function (respsonse) {
+//     console.log(sesponse)
+//     res.json(respsonse)
+//   })
+// });
+
 
 
 app.listen(PORT, function () {
-  console.log("App running on port " + PORT + "!");
+  console.log("App running on port https://localhost:" + PORT + " !");
 });
