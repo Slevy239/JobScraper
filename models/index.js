@@ -1,4 +1,3 @@
 module.exports = {
-    Jobs: require("./Jobs"),
-    Houston: require("./HoustonJobs")
+    Odds: require('./Odds'),
   };
