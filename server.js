@@ -35,7 +35,7 @@ app.engine(
 
 
 
-mongoose.connect("mongodb://localhost/Bets", { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost/Jobs", { useNewUrlParser: true });
 
 
 
