@@ -40,39 +40,36 @@ mongoose.connect("mongodb://localhost/Bets", { useNewUrlParser: true });
 
 
 
-app.get("/scrape", function (req, res) {
+  app.get("/scrape", function (req, res) {
 
-  axios.get('https://www.sportsbookreview.com/betting-odds/ncaa-basketball/matchups/').then(function (respsonse) {
-    let $ = cheerio.load(respsonse.data);
+    axios.get(URLarray[0]).then(function (respsonse) {
+      let $ = cheerio.load(respsonse.data);
 
-    // console.log('results')
-    $('._248Zw').each(function (i, element) {
-      let results = {};
-      
-      results.Teams = $(this).find('.FjbAa').text()
-      results.Spread = 'https://www.youtube.com/watch?v=oHg5SJYRHA0'
-      // results.Percent = $(this).find('.Flohv._34Pxi.P1N4B').text();
-      // results.Percent = $(this).find('Flohv').innerText();
-      // results.Percent = $(".Flohv._34Pxi.P1N4B").text().replace(/\.[^.]*?$/).trim();
-      results.HomeTeam =  55 + Math.floor(Math.random() * 45)
-      results.AwayTeam =  55 + Math.floor(Math.random() * 45)
-      results.Location = $(this).find('h4._3YOGL').text();
+      $(".jobsearch-SerpJobCard").each(function (i, element) {
+        let results = {};
+
+
+        results.title = $(this).find("div.title").text().replace(/\n/g, '')
+        results.company = $(this).find(".company").text().replace(/\n/g, '')
+        results.location = $(this).find(".location").text().replace(/\n/g, '');
+        results.salary = $(this).find(".salaryText").text().replace(/\n/g, '');
+        results.link = "https://www.indeed.com" + $(this).find("a").attr("href");
+        results.summary = $(this).find("ul").text()
 
 
 
 
-      db.Odds.create(results)
-        .then(function (dbOdds) {
-          console.log(dbOdds)
-        })
-        .catch(function (err) {
-          console.log(err);
-        })
+        db.Jobs.create(results)
+          .then(function (dbJobs) {
+            console.log(dbJobs)
+          })
+          .catch(function (err) {
+            console.log(err);
+          })
+      });
+
     });
-
   });
-});
-
 
 
 

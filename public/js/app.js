@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 
@@ -13,6 +14,9 @@ $("#deletePhilly").on("click", function() {
     window.location = "/"
 })
 $("#deleteHouston").on("click", function() {
+=======
+$("#delete").on("click", function() {
+>>>>>>> parent of 2c59060... houston db
     console.log("click")
     $.ajax({
         method: "POST",
@@ -32,14 +36,3 @@ $("#scrape").on("click", function () {
         window.location = "/"
     })
 });
-
-$("#scrapeHouston").on("click", function () {
-    $.ajax({
-        method: "GET",
-        url: "/scrape/houston",
-    }).done(function (data) {
-        console.log(data)
-        window.location = "/"
-    })
-});
-
