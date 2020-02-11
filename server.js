@@ -35,41 +35,66 @@ app.engine(
 
 
 
-mongoose.connect("mongodb://localhost/Jobs", { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost/JobsDb", { useNewUrlParser: true });
+
+let URLarray = ["https://www.indeed.com/jobs?q=junior+developer&l=Philadelphia%2C+PA", "https://www.indeed.com/jobs?q=junior+developer&l=Houston%2C+TX"];
 
 
 
+app.get("/scrape", function (req, res) {
 
-  app.get("/scrape", function (req, res) {
+  axios.get(URLarray[0]).then(function (respsonse) {
+    let $ = cheerio.load(respsonse.data);
 
-    axios.get(URLarray[0]).then(function (respsonse) {
-      let $ = cheerio.load(respsonse.data);
-
-      $(".jobsearch-SerpJobCard").each(function (i, element) {
-        let results = {};
-
-
-        results.title = $(this).find("div.title").text().replace(/\n/g, '')
-        results.company = $(this).find(".company").text().replace(/\n/g, '')
-        results.location = $(this).find(".location").text().replace(/\n/g, '');
-        results.salary = $(this).find(".salaryText").text().replace(/\n/g, '');
-        results.link = "https://www.indeed.com" + $(this).find("a").attr("href");
-        results.summary = $(this).find("ul").text()
+    $(".jobsearch-SerpJobCard").each(function (i, element) {
+      let results = {};
 
 
+      results.title = $(this).find("div.title").text().replace(/\n/g, '')
+      results.company = $(this).find(".company").text().replace(/\n/g, '')
+      results.location = $(this).find(".location").text().replace(/\n/g, '');
+      results.salary = $(this).find(".salaryText").text().replace(/\n/g, '');
+      results.link = "https://www.indeed.com" + $(this).find("a").attr("href");
+      results.summary = $(this).find("ul").text()
 
-
-        db.Jobs.create(results)
-          .then(function (dbJobs) {
-            console.log(dbJobs)
-          })
-          .catch(function (err) {
-            console.log(err);
-          })
-      });
-
+      db.Jobs.create(results)
+        .then(function (dbJobs) {
+          console.log(dbJobs)
+        })
+        .catch(function (err) {
+          console.log(err);
+        })
     });
+
   });
+});
+// app.get("/scrape/houston", function (req, res) {
+
+//   axios.get(URLarray[1]).then(function (respsonse) {
+//     let $ = cheerio.load(respsonse.data);
+
+//     $(".jobsearch-SerpJobCard").each(function (i, element) {
+//       let results = {};
+
+
+//       results.title = $(this).find("div.title").text().replace(/\n/g, '')
+//       results.company = $(this).find(".company").text().replace(/\n/g, '')
+//       results.location = $(this).find(".location").text().replace(/\n/g, '');
+//       results.salary = $(this).find(".salaryText").text().replace(/\n/g, '');
+//       results.link = "https://www.indeed.com" + $(this).find("a").attr("href");
+//       results.summary = $(this).find("ul").text();
+
+//       db.Houston.create(results)
+//         .then(function (dbJobs) {
+//           console.log(dbJobs)
+//         })
+//         .catch(function (err) {
+//           console.log(err);
+//         })
+//     });
+
+//   });
+// });
 
 
 
@@ -86,7 +111,7 @@ mongoose.connect("mongodb://localhost/Jobs", { useNewUrlParser: true });
 
 
 app.get("/", function (req, res) {
-  db.Odds.find({}, function (err, data) {
+  db.Jobs.find({}, function (err, data) {
     var hbsObject = {
       article: data
     };
@@ -95,15 +120,20 @@ app.get("/", function (req, res) {
   })
 })
 
+app.post("/delete", function (req, res) {
+  db.Jobs.remove({}).then(function (respsonse) {
+    console.log(sesponse)
+    res.json(respsonse)
+  })
+});
 // app.post("/delete", function (req, res) {
-//   db.Odds.remove({}).then(function (respsonse) {
+//   db.Houston.remove({}).then(function (respsonse) {
 //     console.log(sesponse)
 //     res.json(respsonse)
 //   })
-// });
-
+// })
 
 
 app.listen(PORT, function () {
-  console.log("App running on port https://localhost:" + PORT + " !");
+  console.log("App running on port " + PORT + "!");
 });

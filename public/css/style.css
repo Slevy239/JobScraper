@@ -12,3 +12,6 @@ body {
     color: black;
     text-align: center;
  }
+ div#navbar {
+    margin-left: 34%;
+}

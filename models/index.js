@@ -1,4 +1,4 @@
 module.exports = {
     Jobs: require("./Jobs"),
-    Angel: require("./AngelJobs");
+    Angel: require("./AngelJobs")
   };
