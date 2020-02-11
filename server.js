@@ -68,45 +68,6 @@ app.get("/scrape", function (req, res) {
 
   });
 });
-// app.get("/scrape/houston", function (req, res) {
-
-//   axios.get(URLarray[1]).then(function (respsonse) {
-//     let $ = cheerio.load(respsonse.data);
-
-//     $(".jobsearch-SerpJobCard").each(function (i, element) {
-//       let results = {};
-
-
-//       results.title = $(this).find("div.title").text().replace(/\n/g, '')
-//       results.company = $(this).find(".company").text().replace(/\n/g, '')
-//       results.location = $(this).find(".location").text().replace(/\n/g, '');
-//       results.salary = $(this).find(".salaryText").text().replace(/\n/g, '');
-//       results.link = "https://www.indeed.com" + $(this).find("a").attr("href");
-//       results.summary = $(this).find("ul").text();
-
-//       db.Houston.create(results)
-//         .then(function (dbJobs) {
-//           console.log(dbJobs)
-//         })
-//         .catch(function (err) {
-//           console.log(err);
-//         })
-//     });
-
-//   });
-// });
-
-
-
-// app.get("/houston", function (rwq, res) {
-//   db.Houston.find({}, function(err, data) {
-//     let hbsObject = {
-//       Houston: data
-//     }
-//     console.log(hbsObject);
-//     res.render("houston", hbsObject);
-//   })
-// })
 
 
 
@@ -126,12 +87,7 @@ app.post("/delete", function (req, res) {
     res.json(respsonse)
   })
 });
-// app.post("/delete", function (req, res) {
-//   db.Houston.remove({}).then(function (respsonse) {
-//     console.log(sesponse)
-//     res.json(respsonse)
-//   })
-// })
+
 
 
 app.listen(PORT, function () {
