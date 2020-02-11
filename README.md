@@ -29,7 +29,7 @@ This application scrapes available job listings on both Angel List and Indeed fo
     <ul>
         <li>Web Scraper</li>
         <ol>
-            <li>Uses Cheerio to scrape open data from Indeed.com</li>
+            <li>Uses Cheerio to scrape data from Indeed.com</li>
             <li>Stores scraped data to Mongoose database</li>
         </ol>
         <li>Axios</li>
